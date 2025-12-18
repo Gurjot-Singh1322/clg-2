@@ -15,6 +15,7 @@ import ViewBookings from './pages/ViewBookings'
 import ViewFeedback from './pages/ViewFeedback'
 import ManageMenu from './pages/ManageMenu'
 import ManageDiscounts from './pages/ManageDiscounts'
+import CancelBooking from "./pages/CancelBooking";
 
 
 const App = () => {
@@ -38,6 +39,8 @@ const App = () => {
         <Route path="/admin/view-feedback" element={<ViewFeedback />} /> 
        <Route path="/admin/manage-menu" element={ <ManageMenu />} />
          <Route path="/admin/manage-discounts" element={<ManageDiscounts />}/> 
+
+        <Route path="/cancel-booking" element={<CancelBooking />} />
 
       </Routes>
       <Footer />

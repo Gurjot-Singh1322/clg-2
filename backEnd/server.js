@@ -7,23 +7,24 @@ import menuRoutes from "./routes/menuRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import feedbackRoutes from "./routes/feedbackRoutes.js";
 import discountRoutes from "./routes/discountRoutes.js";
-
+import cancelRoutes from "./routes/cancelRoutes.js";
 
 dotenv.config();
 
 const app = express();
 
-// Middlewares
+// --- Middlewares ---
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// --- Routes ---
 app.use("/api/menu", menuRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/discounts", discountRoutes);
+app.use("/api/cancel-booking", cancelRoutes);  
 
-// MongoDB connection
+// --- MongoDB Connection ---
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))

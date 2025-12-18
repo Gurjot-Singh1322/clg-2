@@ -5,8 +5,8 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center bg-linear-to-r from-[#3e2c2c] to-[#6b4f4f]">
-        <div className="absolute inset-0 bg-black opacity-30"></div>
+      <section className="relative h-[80vh] flex items-center justify-center bg-[url('https://i.pinimg.com/1200x/d2/39/98/d23998d2e56196e53b1ece9c4615e9bd.jpg')] bg-cover bg-center">
+        <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-10 text-center px-4">
           <h1 className="text-5xl md:text-7xl font-bold text-[#f7ebe8] mb-6 font-montserrat">
             Welcome to <span className="text-[#d4a017]">Sardaar Ji Café</span>

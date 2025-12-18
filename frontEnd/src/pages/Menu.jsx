@@ -53,9 +53,9 @@ const applyDiscount = (item) => {
     }
   });
 
-  if (discountValue > 0) {
-    finalPrice = item.price - (item.price * discountValue) / 100;
-  }
+  // if (discountValue > 0) {
+  //   finalPrice = item.price - (item.price * discountValue) / 100;
+  // }
 
   return { finalPrice, discountValue };
 };

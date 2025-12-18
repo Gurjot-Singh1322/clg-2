@@ -54,7 +54,7 @@ router.get("/slots", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     // Generate a unique booking ID like BKG12345
-    const bookingId = "BKG" + Math.floor(10000 + Math.random() * 90000);
+    const bookingId = generateBookingId();
 
     // Create booking with bookingId
     const booking = new Bookings({
@@ -109,6 +109,7 @@ router.delete("/:id", async (req, res) => {
     res.status(500).json({ error: "Failed to delete booking" });
   }
 });
+
 
 
 export default router;

@@ -7,7 +7,9 @@ const bookingSchema = new mongoose.Schema({
   date: { type: String, required: true },  // stored as "YYYY-MM-DD"
   slot: { type: String, required: true },  // e.g. "11:00", "17:00"
   seats: { type: Number, required: true },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now },
+  status: {type: String,enum: ["confirmed", "cancelled"],default: "confirmed"}
+
 });
 
 export default mongoose.model("Bookings", bookingSchema);

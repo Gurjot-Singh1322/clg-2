@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SlotSelector from '../Components/SlotSelector';
 import { getAvailableSlots, createBooking } from '../utils/api';
 
@@ -221,6 +221,17 @@ const TableBook = () => {
             >
               {loading ? 'Booking...' : 'Book Table'}
             </button>
+            {/* <Link to="/cancel-booking" className="block text-center text-sm text-[#6b4f4f] hover:underline mt-4">
+              Cancel Booking
+            </Link> */}
+            <Link
+              to="/cancel-booking"
+              className="block text-center mt-4 text-red-500 underline"
+            >
+              Cancel a Booking
+            </Link>
+
+
           </form>
         </div>
       </div>

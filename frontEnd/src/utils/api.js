@@ -135,5 +135,21 @@ export const deleteDiscount = async (id) => {
   return res.json();
 };
 
+// CANCEL BOOKING (Customer)
+export const cancelBookingByCustomer = async (bookingId, phone) => {
+  const res = await fetch(`${API_URL}/cancel-booking`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ bookingId, phone })
+  });
+
+  return res.json();
+};
+
+
+
+
 
 

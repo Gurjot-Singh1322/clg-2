@@ -123,7 +123,7 @@ const ViewBookings = () => {
                                     </span>
                                     <button
                                         onClick={async () => {
-                                            if (window.confirm("Are you sure you want to delete this booking?")) {
+                                            if (window.confirm("Are you sure you want to cancel this booking?")) {
 
                                                 const res = await deleteBooking(booking._id);   // FIX HERE
 
@@ -131,13 +131,13 @@ const ViewBookings = () => {
                                                     setBookings(prev => prev.filter(b => b._id !== booking._id));
                                                     setFilteredBookings(prev => prev.filter(b => b._id !== booking._id));
                                                 } else {
-                                                    alert("Failed to delete booking");
+                                                    alert("Failed to cancel booking");
                                                 }
                                             }
                                         }}
                                         className="px-3 py-1 bg-red-700 text-white rounded-lg hover:bg-red-800 transition-all duration-300"
                                     >
-                                        Delete
+                                        Cancel
                                     </button>
 
                                 </div>
