@@ -1,22 +1,8 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import { UtensilsCrossed, Percent, Calendar, MessageCircle, LogOut, Facebook } from 'lucide-react';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
-
-//   React.useEffect(() => {
-//     if (!isAuthenticated) {
-//       navigate('/admin');
-//     }
-//   }, [isAuthenticated, navigate]);
-
-  const handleLogout = () => {
-    logout();
-    navigate('/admin');
-  };
 
   const adminMenuItems = [
     {
@@ -58,13 +44,6 @@ const Dashboard = () => {
             <h1 className="text-3xl md:text-4xl font-bold font-poppins">Admin Dashboard</h1>
             <p className="text-lg mt-2">Sardaar Ji Café Management</p>
           </div>
-          <button
-            onClick={handleLogout}
-            className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300"
-          >
-            <LogOut size={20} />
-            <span>Logout</span>
-          </button>
         </div>
       </div>
 

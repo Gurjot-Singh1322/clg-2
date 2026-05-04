@@ -56,7 +56,7 @@ export const createBooking = async (data) => {
   const res = await fetch(`${BASE_URL}/bookings`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
   return res.json();
 };
@@ -98,20 +98,6 @@ export const deleteFeedback = async (id) => {
 
   return res.json();
 };
-
-// -------------------------------
-// ADMIN LOGIN
-// -------------------------------
-
-export const adminLogin = async (username, password) => {
-  const res = await fetch(`${BASE_URL}/admin/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password }),
-  });
-  return res.json();
-};
-
 
 // DISCOUNTS API
 export const getDiscounts = async () => {

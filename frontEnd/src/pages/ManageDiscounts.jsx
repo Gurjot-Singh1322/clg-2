@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { Plus, Trash2, ArrowLeft, Percent } from "lucide-react";
-import { 
-  getDiscounts, 
-  addDiscount, 
-  deleteDiscount 
+import {
+  getDiscounts,
+  addDiscount,
+  deleteDiscount
 } from "../utils/api";
 
 const ManageDiscounts = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
   const [discounts, setDiscounts] = useState([]);
   const [showForm, setShowForm] = useState(false);
 
@@ -40,12 +38,9 @@ const ManageDiscounts = () => {
   };
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/admin");
-    } else {
-      loadDiscounts();
-    }
-  }, [isAuthenticated, navigate]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadDiscounts();
+  }, []);
 
   // ---------------------------
   // INPUT HANDLERS
@@ -206,8 +201,8 @@ const ManageDiscounts = () => {
                         onClick={() => handleDayToggle(day)}
                         className={`px-4 py-2 rounded-lg 
                         ${formData.validOn.includes(day)
-                          ? "bg-[#d4a017] text-[#3e2c2c]"
-                          : "bg-gray-200 text-gray-700"}
+                            ? "bg-[#d4a017] text-[#3e2c2c]"
+                            : "bg-gray-200 text-gray-700"}
                         `}
                       >
                         {day}

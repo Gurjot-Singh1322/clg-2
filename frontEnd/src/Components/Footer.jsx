@@ -60,9 +60,6 @@ const Footer = () => {
                 <X size={20} />
               </a>
             </div>
-            <Link to="/admin/login" className="inline-block text-sm text-[#d4a017] hover:underline" >
-              Admin Login
-            </Link>
           </div>
         </div>
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import { ArrowLeft, Calendar, Clock, Users, Phone, Hash } from 'lucide-react';
 import { deleteBooking } from "../utils/api";
 
@@ -9,15 +8,7 @@ const API_URL = "http://localhost:5000/api/bookings";
 
 const ViewBookings = () => {
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/admin');
-        } else {
-            fetchBookings(); // now works
-        }
-    }, [isAuthenticated]);
 
 
     const [bookings, setBookings] = useState([]);
@@ -45,18 +36,16 @@ const ViewBookings = () => {
     };
 
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/admin");
-            return;
-        }
-        fetchBookings();
-    }, [isAuthenticated, navigate]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchBookings();
+    }, []);
 
     // --------------------------
     // Filter Bookings By Date
     // --------------------------
     useEffect(() => {
         if (filterDate) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setFilteredBookings(bookings.filter((b) => b.date === filterDate));
         } else {
             setFilteredBookings(bookings);

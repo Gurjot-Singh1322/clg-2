@@ -41,6 +41,18 @@ const BookingConfirmed = () => {
           Please save your Booking ID for future reference.
         </p>
 
+        <h2 className="mt-4 font-bold">Your Menu</h2>
+
+        {booking?.items?.length > 0 ? (
+          booking.items.map((item, i) => (
+            <p key={i}>
+              {item.name} x {item.quantity}
+            </p>
+          ))
+        ) : (
+          <p>No items selected</p>
+        )}
+
         <Link
           to="/tablebook"
           className="bg-[#d4a017] text-white px-6 py-3 rounded-xl font-semibold shadow-md hover:bg-[#b89015] transition"

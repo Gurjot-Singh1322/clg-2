@@ -110,6 +110,37 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// CANCEL BOOKING (Customer)
+router.put("/cancel-booking", async (req, res) => {
+  try {
+    const { bookingId, phone } = req.body;
+
+    const booking = await Bookings.findOne({ bookingId, phone });
+
+    if (!booking) {
+      return res.json({
+        success: false,
+        message: "Booking not found",
+      });
+    }
+
+    booking.status = "cancelled";
+    await booking.save();
+
+    res.json({
+      success: true,
+      message: "Booking cancelled successfully",
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
+  }
+});
+
 
 
 export default router;

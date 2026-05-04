@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { getFeedbackList, deleteFeedback } from "../utils/api";
 import { ArrowLeft, Star, Mail, Calendar, Trash2 } from "lucide-react";
 
 const ViewFeedback = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
 
   const [feedbackList, setFeedbackList] = useState([]);
   const [filteredFeedback, setFilteredFeedback] = useState([]);
@@ -33,18 +31,7 @@ const ViewFeedback = () => {
   };
 
   useEffect(() => {
-  const loadFeedback = async () => {
-    try {
-      const res = await getFeedbackList();
-      if (res.success) {
-        setFeedbackList(res.feedback);
-        setFilteredFeedback(res.feedback);
-      }
-    } catch (err) {
-      console.error("Error loading feedback:", err);
-    }
-  };
-
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   loadFeedback();
 }, []);
 
@@ -57,6 +44,7 @@ const ViewFeedback = () => {
   // ---------------------------
   useEffect(() => {
     if (filterRating > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFilteredFeedback(
         feedbackList.filter((fb) => fb.rating === filterRating)
       );

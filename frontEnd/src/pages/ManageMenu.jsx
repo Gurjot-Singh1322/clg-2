@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 
 import {
   getMenu,
@@ -13,7 +12,6 @@ import { Plus, Edit2, Trash2, ArrowLeft } from "lucide-react";
 
 const ManageMenu = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
 
   const [menuItems, setMenuItems] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -35,16 +33,7 @@ const ManageMenu = () => {
     discount: 0,
   });
 
-  // ---------------------------
-  //  FETCH MENU FROM DATABASE
-  // ---------------------------
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/admin");
-      return;
-    }
-    fetchMenuItems();
-  }, [isAuthenticated]);
+  
 
   const fetchMenuItems = async () => {
     try {
@@ -54,6 +43,11 @@ const ManageMenu = () => {
       console.error("Error loading menu:", error);
     }
   };
+
+  useEffect(() => {
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  fetchMenuItems();
+  }, []);
 
   // ---------------------------
   //  HANDLE FORM INPUT

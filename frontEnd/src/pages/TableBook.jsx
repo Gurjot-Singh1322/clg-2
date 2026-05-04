@@ -24,6 +24,8 @@ const TableBook = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [menuItems, setMenuItems] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -35,6 +37,20 @@ const TableBook = () => {
       fetchSlots();
     }
   }, [formData.date]);
+
+  useEffect(() => {
+  const loadMenu = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/menu");
+      const data = await res.json();
+      setMenuItems(data);
+    } catch (err) {
+      console.error("Menu load error", err);
+    }
+  };
+
+  loadMenu();
+  }, []);
 
   const fetchSlots = async () => {
   try {
@@ -67,10 +83,34 @@ const TableBook = () => {
     setError('');
   };
 
+  const addToCart = (item) => {
+  const existing = cart.find(i => i.itemId === item._id);
+
+  if (existing) {
+    setCart(cart.map(i =>
+      i.itemId === item._id
+        ? { ...i, quantity: i.quantity + 1 }
+        : i
+    ));
+  } else {
+    setCart([
+      ...cart,
+      {
+        itemId: item._id,
+        name: item.name,
+        price: item.price,
+        quantity: 1,
+      },
+    ]);
+  }
+};
+
+  const BOOKING_FEE = 50;
+  const totalAmount = formData.seats * BOOKING_FEE;
+
   const handleSubmit = async (e) => {
   e.preventDefault();
   setError('');
-  setSuccess('');
   setLoading(true);
 
   if (!formData.name || !formData.phone || !formData.date || !formData.slot || !formData.seats) {
@@ -80,23 +120,75 @@ const TableBook = () => {
   }
 
   try {
-    const response = await createBooking(formData);
+    //Create Razorpay order
+    const res = await fetch("http://localhost:5000/api/payment/create-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: totalAmount }),
+    });
 
-        if (response.success && response.bookingId) {
-      navigate(`/booking-confirmed/${response.bookingId}`, {
-        state: {
-          bookingId: response.bookingId,
-          booking: response.booking
-        }
-      });
-    } else {
-      setError("Booking failed. Try again.");
+    const order = await res.json();
+    
+    if (!order.id) {
+      setError("Order creation failed");
+      return;
     }
+    //Open Razorpay
+    const options = {
+      key: "rzp_test_Si53WOFtaYrtTn",
+      currency: "INR",
+      name: "Sardaar Ji Café",
+      description: "Table Booking",
+      order_id: order.id,
 
+      prefill: {
+      name: formData.name,
+      contact: formData.phone,
+      email: "test@gmail.com",
+
+      method: {
+      netbanking: true,
+      card: false,
+      upi: false,
+      wallet: false
+    },
+    },
+
+      handler: async function (response) {
+          console.log("CART DATA:", cart);   // 🔥 ADD THIS
+
+        //Save booking AFTER payment
+        const bookingData = {
+          ...formData,
+          items: cart,
+          amountPaid: totalAmount,
+          paymentId: response.razorpay_payment_id,
+        };
+          console.log("BOOKING DATA:", bookingData); // 🔥 ADD THIS
+
+        const result = await createBooking(bookingData);
+
+        if (result.success && result.bookingId) {
+          navigate(`/booking-confirmed/${result.bookingId}`, {
+            state: {
+              bookingId: result.bookingId,
+              booking: result.booking
+            }
+          });
+        } else {
+          setError("Booking failed after payment.");
+        }
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
 
   } catch (error) {
     console.error(error);
-    setError('Network error. Please try again.');
+    setError('Payment error. Try again.');
   } finally {
     setLoading(false);
   }
@@ -213,13 +305,40 @@ const TableBook = () => {
               </div>
             )}
 
+            <h2 className="text-lg font-bold mt-6">Select Menu (Optional)</h2>
+
+            {menuItems.map((item) => (
+              <div key={item._id} className="flex justify-between border p-2 rounded mt-2">
+                <div>
+                  <p>{item.name}</p>
+                  <p>₹{item.price}</p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => addToCart(item)}
+                  className="bg-green-500 text-white px-2 py-1 rounded"
+                >
+                  Add
+                </button>
+              </div>
+            ))}
+
+            <h3 className="mt-4 font-semibold">Selected Items</h3>
+
+            {cart.map((item) => (
+              <p key={item.itemId}>
+                {item.name} x {item.quantity}
+              </p>
+            ))}                         
+
             {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}
               className="w-full bg-[#d4a017] text-white py-3 rounded-xl font-semibold hover:bg-[#b89015] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Booking...' : 'Book Table'}
+              {loading ? 'Booking...' : `Pay ₹${totalAmount} & Book`}
             </button>
             {/* <Link to="/cancel-booking" className="block text-center text-sm text-[#6b4f4f] hover:underline mt-4">
               Cancel Booking

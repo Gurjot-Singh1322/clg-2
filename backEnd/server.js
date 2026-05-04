@@ -8,6 +8,8 @@ import bookingRoutes from "./routes/bookingRoutes.js";
 import feedbackRoutes from "./routes/feedbackRoutes.js";
 import discountRoutes from "./routes/discountRoutes.js";
 import cancelRoutes from "./routes/cancelRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import paymentRoutes from "./routes/payment.js";
 
 dotenv.config();
 
@@ -23,6 +25,13 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/discounts", discountRoutes);
 app.use("/api/cancel-booking", cancelRoutes);  
+app.use("/api/users", authRoutes);
+app.use("/api/payment", paymentRoutes);
+
+app.get("/", (req, res) => {
+  res.send("API running...");
+});
+
 
 // --- MongoDB Connection ---
 mongoose
