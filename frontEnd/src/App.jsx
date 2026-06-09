@@ -17,8 +17,8 @@ import ManageDiscounts from './pages/ManageDiscounts'
 import CancelBooking from "./pages/CancelBooking";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminRoute from "./components/AdminRoute";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import AdminRoute from "./Components/AdminRoute";
 const App = () => {
   return (
     <div>
