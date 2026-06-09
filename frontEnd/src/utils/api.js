@@ -1,7 +1,7 @@
-const API_URL =
+export const API_URL =
   import.meta.env.VITE_API_URL ||
   "http://localhost:5000/api";
-const BASE_URL = API_URL
+export const BASE_URL = API_URL
 // -------------------------------
 // MENU API
 // -------------------------------
