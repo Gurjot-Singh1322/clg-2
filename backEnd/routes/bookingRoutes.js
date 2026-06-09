@@ -1,11 +1,14 @@
 import express from "express";
 import Bookings from "../models/Bookings.js";
 
+import { sendBookingEmail } from "../utils/sendEmail.js";
+
+
 const router = express.Router();
 
 const allSlots = [
-  "09:00","10:00","11:00","12:00","13:00","14:00",
-  "15:00","16:00","17:00","18:00","19:00","20:00","21:00"
+  "09:00", "10:00", "11:00", "12:00", "13:00", "14:00",
+  "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00"
 ];
 
 //Booking ID generator
@@ -31,7 +34,10 @@ router.get("/slots", async (req, res) => {
     if (!date) return res.status(400).json({ error: "Date is required" });
 
     const MAX_SEATS = 10;
-    const bookings = await Bookings.find({ date });
+    const bookings = await Bookings.find({
+      date,
+      status: "confirmed"
+    });
 
     const slotData = {};
     allSlots.forEach(slot => slotData[slot] = MAX_SEATS);
@@ -63,6 +69,20 @@ router.post("/", async (req, res) => {
     });
 
     await booking.save();
+
+    try {
+      await sendBookingEmail({
+        to: req.body.email,
+        name: booking.name,
+        bookingId: booking.bookingId,
+        date: booking.date,
+        slot: booking.slot,
+        seats: booking.seats,
+        items: booking.items
+      });
+    } catch (emailErr) {
+      console.error("Email failed:", emailErr);
+    }
 
     res.json({
       success: true,

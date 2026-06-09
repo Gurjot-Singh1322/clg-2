@@ -14,7 +14,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { login } = useAuth(); // 🔥 IMPORTANT
+  const { login } = useAuth(); 
 
   const handleLogin = async (e) => {
     e.preventDefault();

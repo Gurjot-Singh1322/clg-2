@@ -1,6 +1,7 @@
-import express from "express";
-import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
+import cors from "cors";
+import express from "express";
 import mongoose from "mongoose";
 
 import menuRoutes from "./routes/menuRoutes.js";
@@ -11,7 +12,6 @@ import cancelRoutes from "./routes/cancelRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import paymentRoutes from "./routes/payment.js";
 
-dotenv.config();
 
 const app = express();
 
