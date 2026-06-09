@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { User, Mail, MessageCircle, Star, CheckCircle } from 'lucide-react';
 import { submitFeedback } from "../utils/api";  // <-- add this at top
+import { BASE_URL } from "../utils/api";
 
+const API_URL = BASE_URL;
 const Feedback = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -35,7 +37,7 @@ const Feedback = () => {
   try {
     console.log("📤 Sending to backend...");
 
-    const response = await fetch("http://localhost:5000/api/feedback", {
+    const response = await fetch(`${BASE_URL}/feedback`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

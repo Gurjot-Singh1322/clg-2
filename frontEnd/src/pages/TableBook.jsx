@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import SlotSelector from '../Components/SlotSelector';
 import { getAvailableSlots, createBooking } from '../utils/api';
-
+import { BASE_URL } from "../utils/api";
 
 const TableBook = () => {
 
@@ -41,7 +41,7 @@ const TableBook = () => {
   useEffect(() => {
     const loadMenu = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/menu");
+        const res = await fetch(`${BASE_URL}/menu`);
         const data = await res.json();
         setMenuItems(data);
       } catch (err) {
@@ -133,7 +133,7 @@ const TableBook = () => {
 
     try {
       //Create Razorpay order
-      const res = await fetch("http://localhost:5000/api/payment/create-order", {
+      const res = await fetch(`${BASE_URL}/payment/create-order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

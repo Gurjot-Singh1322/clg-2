@@ -7,6 +7,7 @@ import AuthCard from "../Components/auth/AuthCard";
 import AuthInput from "../Components/auth/AuthInput";
 import AuthButton from "../Components/auth/AuthButton";
 import AuthSwitch from "../Components/auth/AuthSwitch";
+import { BASE_URL } from "../utils/api";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -22,7 +23,7 @@ const Register = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/register", {
+      const res = await fetch(`${BASE_URL}/users/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

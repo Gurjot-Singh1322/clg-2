@@ -7,6 +7,7 @@ import AuthCard from "../Components/auth/AuthCard";
 import AuthInput from "../Components/auth/AuthInput";
 import AuthButton from "../Components/auth/AuthButton";
 import AuthSwitch from "../Components/auth/AuthSwitch";
+import { BASE_URL } from "../utils/api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +22,7 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/users/login", {
+      const res = await fetch(`${BASE_URL}/users/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

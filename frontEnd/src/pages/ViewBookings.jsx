@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock, Users, Phone, Hash } from 'lucide-react';
 import { deleteBooking } from "../utils/api";
+import { BASE_URL } from "../utils/api";
 
-
-const API_URL = "http://localhost:5000/api/bookings";
+const API_URL = BASE_URL;
 
 const ViewBookings = () => {
     const navigate = useNavigate();
